@@ -1,0 +1,22 @@
+---
+- name: creating Repositories
+  hosts: all
+  tasks:
+    - name: adding BaseOS repo
+      ansible.builtin.yum_repository:
+        name: EX294_BASE
+        file: EX294_BASE
+        description: EX294 base software
+        baseurl: http://172.31.24.138/repos/baseos/rhel-10-baseos-rhui-rpms
+        gpgcheck: true
+        gpgkey: http://172.31.24.138/repos/RPM-GPG-KEY-redhat-release
+        enabled: true
+    - name: adding AppStream repo
+      ansible.builtin.yum_repository:
+        name: EX294_STREAM
+        file: EX294_STREAM
+        description: EX294 stream software
+        baseurl: http://172.31.24.138/repos/appstream/rhel-10-appstream-rhui-rpms
+        gpgcheck: true
+        gpgkey: http://172.31.24.138/repos/RPM-GPG-KEY-redhat-release
+        enabled: true
