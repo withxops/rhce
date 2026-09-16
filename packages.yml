@@ -1,0 +1,24 @@
+---
+- name: Installing Packages
+  hosts: dev, test, prod
+  become: yes
+  tasks:
+    - name: Installing required packages
+      ansible.builtin.dnf:
+        name: 
+          - php
+          - mariadb
+        state: present
+
+- name: Installing RPM Dev Tool and Updating the server
+  hosts: dev
+  become: true
+  tasks: 
+    - name: Installing ROM Dev Tool group
+      ansible.builtin.dnf:
+        name: "@RPM Development Tools"
+        state: present
+    - name: Updating the dev host
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
