@@ -7,7 +7,7 @@
         name: EX294_BASE
         file: EX294_BASE
         description: EX294 base software
-        baseurl: http://172.31.24.138/repos/baseos/rhel-10-baseos-rhui-rpms
+        baseurl: http://172.31.24.138/repos/baseos
         gpgcheck: true
         gpgkey: http://172.31.24.138/repos/RPM-GPG-KEY-redhat-release
         enabled: true
@@ -16,7 +16,7 @@
         name: EX294_STREAM
         file: EX294_STREAM
         description: EX294 stream software
-        baseurl: http://172.31.24.138/repos/appstream/rhel-10-appstream-rhui-rpms
+        baseurl: http://172.31.24.138/repos/appstream
         gpgcheck: true
         gpgkey: http://172.31.24.138/repos/RPM-GPG-KEY-redhat-release
         enabled: true
