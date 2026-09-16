@@ -1,0 +1,38 @@
+---
+- hosts: all
+  tasks:
+    - name: getting the hwreport file 
+      ansible.builtin.get_url:
+        url: http://172.31.24.138/materials/hwreport.empty
+        dest: /root/hwreport.txt
+
+    - name: putting inventory hoostname in hwreport
+      ansible.builtin.lineinfile:
+        path: /root/hwreport.txt
+        regexp: '^INVENTORY_HOSTNAME='
+        line: "INVENTORY_HOSTNAME={{ inventory_hostname }}"
+
+ 
+    - name: putting Total memory in hwreport
+      ansible.builtin.lineinfile:
+        path: /root/hwreport.txt
+        regexp: '^TOTAL_MEMORY='
+        line: "TOTAL_MEMORY={{ ansible_memtotal_mb | default ('NONE', true) }}"
+
+    - name: putting bios version in hwreport
+      ansible.builtin.lineinfile:
+        path: /root/hwreport.txt
+        regexp: '^BIOS_VERSION='
+        line: "BIOS_VERSION={{ ansible_bios_version | default ('NONE', true) }}"
+
+    - name: putting VDA in hwreport
+      ansible.builtin.lineinfile:
+        path: /root/hwreport.txt
+        regexp: '^VDA_SIZE='
+        line: "VDA_SIZE={{ ansible_devices.nvme1n1.size | default ('NONE', true) }}"
+
+    - name: putting VDB in hwreport
+      ansible.builtin.lineinfile:
+        path: /root/hwreport.txt
+        regexp: '^VDB_SIZE='
+        line: "VDB_SIZE={{ ansible_devices.nvme2n1.size | default ('NONE', true) }}"
