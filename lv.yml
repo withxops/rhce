@@ -1,0 +1,31 @@
+---
+- name: Creating and Using LV
+  hosts: all
+  become: true
+  tasks:
+    - block:
+        - name: creating lv of 1500m
+          community.general.lvol:
+            lv: data
+            vg: research
+            size: 1500m
+        - name: Formatting with ext4 
+          community.general.filesystem:
+            fstype: ext4
+            dev: /dev/research/data
+      rescue:
+        - ansible.builtin.debug:
+            msg: "Could not create logical volume of that size"
+        - name: creating lv of 800m
+          community.general.lvol:
+            lv: data
+            vg: research
+            size: 800m
+        - name: Formatting with ext4 
+          community.general.filesystem:
+            fstype: ext4
+            dev: /dev/research/data
+      when: ansible_lvm.vgs.research is defined
+    - debug:
+        msg: "volume group does not exist"
+      when: ansible_lvm.vgs.research is not defined
