@@ -1,0 +1,5 @@
+---
+- name: Creating and Using Apache role
+  hosts: webservers
+  roles:
+    - role: apache
