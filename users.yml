@@ -1,0 +1,36 @@
+---
+- hosts: dev, test
+  vars_files:
+    - /home/student/rhce/locker.yml
+    - /home/student/rhce/user_list.yml
+  tasks:
+    - name: ensure group is present
+      ansible.builtin.group:
+        name: devops
+        state: present
+    - name: creating user
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        group: devops
+        password: "{{ pw_developer | password_hash('sha512') }}"
+        password_expire_max: "{{ item.password_expire_max }}"
+      loop: "{{ user }}"
+      when: item.job == 'developer'
+    
+- hosts: prod
+  vars_files:
+    - /home/student/rhce/locker.yml
+    - /home/student/rhce/user_list.yml
+  tasks:
+    - name: ensure group is present
+      ansible.builtin.group:
+        name: devmgr
+        state: present
+    - name: creating user
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        group: devmgr
+        password: "{{ pw_manager | password_hash('sha512') }}"
+        password_expire_max: "{{ item.password_expire_max }}"
+      loop: "{{ user }}"
+      when: item.job == 'manager'
