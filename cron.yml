@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+    - name: setting cron job
+      ansible.builtin.cron:
+        name: "test"
+        minute: "*/2"
+        user: student
+        job: " logger 'EX294' " 
